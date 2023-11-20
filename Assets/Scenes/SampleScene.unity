@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 534201967}
   - component: {fileID: 534201970}
   - component: {fileID: 534201969}
-  - component: {fileID: 534201968}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -155,19 +154,6 @@ Transform:
   m_Father: {fileID: 971471797}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &534201968
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534201966}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &534201969
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -385,6 +371,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb645a169f828484fa138c395cb8d87e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  mouseSensitivityX: 5
+  mouseSensitivityY: 5
 --- !u!114 &663651895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 419f1c8dd58b3314b8b189d1d3b235dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 1214895221}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,7 +964,6 @@ GameObject:
   - component: {fileID: 1158845779}
   - component: {fileID: 1158845782}
   - component: {fileID: 1158845781}
-  - component: {fileID: 1158845780}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -996,19 +985,6 @@ Transform:
   m_Father: {fileID: 971471797}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -52.848003, y: 0, z: 0}
---- !u!65 &1158845780
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158845778}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1158845781
 MeshRenderer:
   m_ObjectHideFlags: 0
