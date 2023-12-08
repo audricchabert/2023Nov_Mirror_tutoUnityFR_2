@@ -272,6 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 419f1c8dd58b3314b8b189d1d3b235dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraRotationLimit: 85
   playerCamera: {fileID: 7055443059625759925}
 --- !u!114 &7055443059157911286
 MonoBehaviour:
@@ -288,6 +289,9 @@ MonoBehaviour:
   speed: 2
   mouseSensitivityX: 5
   mouseSensitivityY: 5
+  thrusterForce: 1000
+  jointSpring: 20
+  jointMaxForce: 40
 --- !u!114 &-8006333231516205373
 MonoBehaviour:
   m_ObjectHideFlags: 0

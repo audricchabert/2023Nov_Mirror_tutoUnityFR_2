@@ -2,6 +2,7 @@
 
 //RequireComponent fait en sorte qu'on ne puisse pas supprimer un component dépendant .via l'inspecteur
 [RequireComponent(typeof(PlayerMotor))]
+[RequireComponent(typeof(ConfigurableJoint))]
 public class PlayerController : MonoBehaviour
 {
     //SerializeField fait en sorte que la variable soit visible et modifiable depuis l'inspecteur, au niveau du script
@@ -13,11 +14,24 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float mouseSensitivityY = 3f;
 
+    [SerializeField]
+    private float thrusterForce = 1000f;
+
+    [Header("Y_Joint options")]
+    [SerializeField]
+    private float jointSpring= 20f;
+    [SerializeField]
+    private float jointMaxForce = 40;
+
+
     private PlayerMotor playerMotor;
+    private ConfigurableJoint playerConfigurablejoint;
 
     private void Start()
     {
         playerMotor = GetComponent<PlayerMotor>();
+        playerConfigurablejoint = GetComponent<ConfigurableJoint>();
+        SetJointsSettings(jointSpring);
     }
 
     private void Update()
@@ -45,7 +59,27 @@ public class PlayerController : MonoBehaviour
         //Calculer la rotation du joueur (pour regarder en haut en bas )
         //note : on utilise le mouvement de la souris sur l'axe Y (mouse Y) pour associer une rotation du joueur sur l'axe x (xRot)
         float xRot = Input.GetAxisRaw("Mouse Y");
-        Vector3 verticalRotation = new Vector3(xRot, 0, 0) * mouseSensitivityY;
+        float verticalRotation = xRot* mouseSensitivityY;
         playerMotor.RotateCamera(verticalRotation);
+
+        Vector3 thrusterVelocity = Vector3.zero;
+        //gestion du jetpack 
+        if (Input.GetButton("Jump"))
+        {
+            thrusterVelocity = Vector3.up * thrusterForce;
+            SetJointsSettings(0f);
+        }
+        else // todo : voir si ce n'est pas plus performant de remplacer ce else par un GetButtonUp, pour juste désactiver une seule fois quand on relache le bouton
+        {
+            SetJointsSettings(jointSpring);
+        }
+
+        playerMotor.ApplyThruster(thrusterVelocity);
+    }
+
+    private void SetJointsSettings(float _jointSpring)
+    {
+        //note : il semble qu'on doive utiliser jointMaxForce dans tous les appels vu qu'on doit créer un nouveau JointDrive à chaque fois, et pas juste le modifier
+        playerConfigurablejoint.yDrive = new JointDrive { positionSpring  = _jointSpring, maximumForce = jointMaxForce };
     }
 }
