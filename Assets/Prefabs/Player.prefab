@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7055443058221090479}
   - component: {fileID: 7055443058221090482}
   - component: {fileID: 7055443058221090481}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7055443058794675061}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 7055443059092069526}
   - component: {fileID: 7055443059092069528}
   - component: {fileID: 7055443059092069527}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,9 +209,9 @@ GameObject:
   - component: {fileID: 4031634624609077936}
   - component: {fileID: 3351369955947337403}
   - component: {fileID: 2129470475485261179}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -330,6 +330,8 @@ MonoBehaviour:
   - {fileID: 7055443059157911286}
   - {fileID: 7055443059625759925}
   - {fileID: 7055443059625759924}
+  - {fileID: 2129470475485261179}
+  remoteLayerName: RemotePlayer
 --- !u!114 &-6243862721782457481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,7 +505,7 @@ MonoBehaviour:
   playerCamera: {fileID: 7055443059625759925}
   mask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 567
 --- !u!1 &7055443059625759922
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,7 +517,7 @@ GameObject:
   - component: {fileID: 7055443059625759923}
   - component: {fileID: 7055443059625759925}
   - component: {fileID: 7055443059625759924}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -599,7 +601,7 @@ GameObject:
   - component: {fileID: 7055443059668309395}
   - component: {fileID: 7055443059668309398}
   - component: {fileID: 7055443059668309397}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -676,7 +678,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7055443060253649368}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
