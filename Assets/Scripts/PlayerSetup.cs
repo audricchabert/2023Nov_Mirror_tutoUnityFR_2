@@ -13,8 +13,6 @@ public class PlayerSetup : NetworkBehaviour
 
     private void Start()
     {
-        RenamePlayer();
-
         if (!isLocalPlayer)
         {
             RemotePlayerSetup();
@@ -34,14 +32,15 @@ public class PlayerSetup : NetworkBehaviour
 
     }
 
-    /**
-     * renames the player object using its net Id
-     */
-    private void RenamePlayer()
+    //OnStartClient comes from the NetworkBehavior. Is run automatically when the client starts
+    public override void OnStartClient()
     {
-        string playerName = "Player" + GetComponent<NetworkIdentity>().netId;
-        this.transform.name = playerName;
+        base.OnStartClient();
 
+        string netId = GetComponent<NetworkIdentity>().netId.ToString();
+        Player player = GetComponent<Player>();
+
+        GameManager.RegisterPlayer(netId, player);
     }
 
     private void RemotePlayerSetup()
@@ -63,6 +62,7 @@ public class PlayerSetup : NetworkBehaviour
         gameObject.layer = LayerMask.NameToLayer(remoteLayerName);
     }
 
+    // This method is run automatically when the component is disabled (ie : when the unity instance disconnects from the server? quits the scene?)
     private void OnDisable()
     {
         if (sceneCamera != null)
@@ -70,5 +70,9 @@ public class PlayerSetup : NetworkBehaviour
             sceneCamera.gameObject.SetActive(true);
         }
 
+
+        GameManager.UnregisterPlayer(transform.name);
     }
+
+
 }
