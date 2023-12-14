@@ -22,6 +22,8 @@ public class PlayerMotor : MonoBehaviour
     {
         playerRigidbody = GetComponent<Rigidbody>();
 
+        //captures the mouse, can be disabled by pressing ESC
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void FixedUpdate()
