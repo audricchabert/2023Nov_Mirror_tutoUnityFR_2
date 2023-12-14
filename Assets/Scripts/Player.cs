@@ -1,18 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Mirror;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private float maxHealth = 100f;
+
+    // SyncVar makes the variable synced on all instances
+    [SyncVar]
+    private float currentHealth;
+
+    private void Awake()
     {
-        
+        SetDefaults();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetDefaults()
     {
-        
+        currentHealth = maxHealth;
+    }
+
+    public void TakeDamage(float amount)
+    {
+        currentHealth -= amount;
+        Debug.Log(transform.name + " a maintenant " + currentHealth + " points de vie");
     }
 }

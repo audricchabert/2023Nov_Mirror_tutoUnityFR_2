@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     }
 
     //debug method that displays on the GUI informations
+    /*
     private void OnGUI()
     {
         GUILayout.BeginArea(new Rect(200, 200, 200, 500));
@@ -35,5 +36,11 @@ public class GameManager : MonoBehaviour
 
         GUILayout.EndVertical();
         GUILayout.EndArea();
+    }
+    */
+
+    public static Player GetPlayer(string playerIdToGet)
+    {
+        return players[playerIdToGet];
     }
 }

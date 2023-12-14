@@ -21,6 +21,7 @@ public class PlayerMotor : MonoBehaviour
     private void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+
     }
 
     private void FixedUpdate()
