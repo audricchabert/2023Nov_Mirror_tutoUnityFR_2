@@ -29,7 +29,7 @@ public class PlayerSetup : NetworkBehaviour
             }
 
         }
-
+        GetComponent<Player>().Setup();
     }
 
     //OnStartClient comes from the NetworkBehavior. Is run automatically when the client starts

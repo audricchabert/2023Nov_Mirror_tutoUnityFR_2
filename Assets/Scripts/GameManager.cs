@@ -7,6 +7,20 @@ public class GameManager : MonoBehaviour
 
     private static Dictionary<string, Player> players = new Dictionary<string, Player>();
 
+    public MatchSettings matchSettings;
+
+    public static GameManager instance;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            return;
+        }
+        Debug.LogError("plus d'une instance de GameManager dans la scène");
+    }
+
     public static void RegisterPlayer(string playerIdToRegister, Player playerToRegister)
     {
         //Add the player to the dictionnary

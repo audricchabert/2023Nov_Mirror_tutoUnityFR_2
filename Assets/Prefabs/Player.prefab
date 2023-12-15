@@ -501,7 +501,7 @@ MonoBehaviour:
   syncInterval: 0.1
   playerWeapon:
     name: default weapon
-    damage: 10
+    damage: 55
     range: 100
   playerCamera: {fileID: 7055443059625759925}
   mask:
@@ -519,6 +519,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2bd913de666c824d8ef8c4c0b264e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  maxHealth: 100
+  componentsToDisableOnDeath:
+  - {fileID: 2129470475485261179}
+  - {fileID: 7055443059157911286}
 --- !u!1 &7055443059625759922
 GameObject:
   m_ObjectHideFlags: 0
