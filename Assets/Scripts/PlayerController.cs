@@ -3,6 +3,7 @@
 //RequireComponent fait en sorte qu'on ne puisse pas supprimer un component dépendant .via l'inspecteur
 [RequireComponent(typeof(PlayerMotor))]
 [RequireComponent(typeof(ConfigurableJoint))]
+[RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
     //SerializeField fait en sorte que la variable soit visible et modifiable depuis l'inspecteur, au niveau du script
@@ -26,24 +27,30 @@ public class PlayerController : MonoBehaviour
 
     private PlayerMotor playerMotor;
     private ConfigurableJoint playerConfigurablejoint;
+    private Animator animator;
 
     private void Start()
     {
         playerMotor = GetComponent<PlayerMotor>();
         playerConfigurablejoint = GetComponent<ConfigurableJoint>();
         SetJointsSettings(jointSpring);
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         // Calculer la vélocité du mouvement du joueur (avant-arrière et sur les côtés)
-        float xMov = Input.GetAxisRaw("Horizontal");
-        float zMov = Input.GetAxisRaw("Vertical");
+        float xMov = Input.GetAxis("Horizontal");
+        float zMov = Input.GetAxis("Vertical");
 
         Vector3 moveHorizontal = transform.right * xMov;
         Vector3 moveVertical = transform.forward * zMov;
 
-        Vector3 velocity = (moveHorizontal + moveVertical).normalized * speed;
+        Vector3 velocity = (moveHorizontal + moveVertical) * speed;
+
+        //Jouer animation thruster
+        //the "ForwardVelocity" value is the one used in the animator, in the parameters pane
+        animator.SetFloat("ForwardVelocity", zMov);
 
         playerMotor.MovePlayer(velocity);
 
