@@ -9,6 +9,12 @@ public class PlayerSetup : NetworkBehaviour
     [SerializeField]
     private string remoteLayerName = "RemotePlayer";
 
+    [SerializeField]
+    private string dontDrawLayerName = "DontDraw";
+
+    [SerializeField]
+    private GameObject playerGraphics;
+
     Camera sceneCamera;
 
     private void Start()
@@ -27,6 +33,9 @@ public class PlayerSetup : NetworkBehaviour
             {
                 sceneCamera.gameObject.SetActive(false);
             }
+
+            //Désactiver la partie graphique du joueur local
+            SetLayerRecursively(playerGraphics, LayerMask.NameToLayer(dontDrawLayerName));
 
         }
         GetComponent<Player>().Setup();
@@ -74,5 +83,12 @@ public class PlayerSetup : NetworkBehaviour
         GameManager.UnregisterPlayer(transform.name);
     }
 
-
+    private void SetLayerRecursively(GameObject gameObject, int newLayer)
+    {
+        gameObject.layer = newLayer;
+        foreach (Transform child in gameObject.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
+    }
 }
