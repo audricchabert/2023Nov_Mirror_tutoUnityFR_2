@@ -466,6 +466,8 @@ MonoBehaviour:
   remoteLayerName: RemotePlayer
   dontDrawLayerName: DontDraw
   playerGraphics: {fileID: 6932005354054340902}
+  playerUIPrefab: {fileID: 5933727199317621063, guid: 90d95d030f6c0144594a260f7acc6180,
+    type: 3}
 --- !u!114 &2919390147108692870
 MonoBehaviour:
   m_ObjectHideFlags: 0

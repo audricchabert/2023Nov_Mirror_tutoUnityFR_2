@@ -23,6 +23,7 @@ public class PlayerMotor : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
 
         //captures the mouse, can be disabled by pressing ESC
+        //note : when having the mouse locked , we cannot click the network manager buttons "stop host" to quit the game
         Cursor.lockState = CursorLockMode.Locked;
     }
 

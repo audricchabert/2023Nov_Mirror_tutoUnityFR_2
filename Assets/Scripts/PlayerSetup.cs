@@ -15,6 +15,10 @@ public class PlayerSetup : NetworkBehaviour
     [SerializeField]
     private GameObject playerGraphics;
 
+    [SerializeField]
+    private GameObject playerUIPrefab;
+    private GameObject playerUIInstance;
+
     Camera sceneCamera;
 
     private void Start()
@@ -37,6 +41,8 @@ public class PlayerSetup : NetworkBehaviour
             //Désactiver la partie graphique du joueur local
             SetLayerRecursively(playerGraphics, LayerMask.NameToLayer(dontDrawLayerName));
 
+            //Only create a playerUI on the local player
+            playerUIInstance = Instantiate(playerUIPrefab);
         }
         GetComponent<Player>().Setup();
     }
@@ -81,6 +87,8 @@ public class PlayerSetup : NetworkBehaviour
 
 
         GameManager.UnregisterPlayer(transform.name);
+
+        Destroy(playerUIInstance);
     }
 
     private void SetLayerRecursively(GameObject gameObject, int newLayer)
