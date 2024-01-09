@@ -3,7 +3,14 @@ using Mirror;
 
 public class PlayerShoot : NetworkBehaviour
 {
-    public PlayerWeapon playerWeapon;
+    [SerializeField]
+    private PlayerWeapon playerWeapon;
+
+    [SerializeField]
+    private GameObject weaponGFX;
+
+    [SerializeField]
+    private string weaponLayerName = "Weapon";
 
     [SerializeField]
     private Camera playerCamera;
@@ -19,6 +26,9 @@ public class PlayerShoot : NetworkBehaviour
             Debug.LogError("Pas de caméra renseignée sur PlayerShoot");
             this.enabled = false;
         }
+
+        //since this whole script is only processed on the local player, the weapon layer is only changed on its own weapon. This is used in the double camera display do avoid clipping. If others weapons also had the layer name changed, then they would also be visible through the walls
+        weaponGFX.layer = LayerMask.NameToLayer(weaponLayerName);
     }
 
     private void Update()
