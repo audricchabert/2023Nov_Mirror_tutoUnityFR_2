@@ -1,22 +1,18 @@
 ﻿using UnityEngine;
 using Mirror;
 
+[RequireComponent(typeof(WeaponManager))]
 public class PlayerShoot : NetworkBehaviour
 {
-    [SerializeField]
-    private PlayerWeapon playerWeapon;
-
-    [SerializeField]
-    private GameObject weaponGFX;
-
-    [SerializeField]
-    private string weaponLayerName = "Weapon";
 
     [SerializeField]
     private Camera playerCamera;
 
     [SerializeField]
     private LayerMask mask;
+
+    private WeaponManager weaponManager;
+    private PlayerWeapon currentWeapon;
 
     // Start is called before the first frame update
     void Start()
@@ -27,28 +23,47 @@ public class PlayerShoot : NetworkBehaviour
             this.enabled = false;
         }
 
-        //since this whole script is only processed on the local player, the weapon layer is only changed on its own weapon. This is used in the double camera display do avoid clipping. If others weapons also had the layer name changed, then they would also be visible through the walls
-        weaponGFX.layer = LayerMask.NameToLayer(weaponLayerName);
+        weaponManager = GetComponent<WeaponManager>();
+
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        currentWeapon = weaponManager.GetCurrentWeapon();
+
+        if(currentWeapon.fireRate <= 0f)
         {
-            Shoot();
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Shoot();
+            }
         }
+        else
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                InvokeRepeating("Shoot", 0f, 1f / currentWeapon.fireRate);
+            }
+            else if (Input.GetButtonUp("Fire1"))
+            {
+                CancelInvoke("Shoot");
+            }
+        }
+        
     }
 
     [Client]
     private void Shoot()
     {
+        Debug.Log("Tir effectué");
+
         RaycastHit hit;
 
-        if( Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, playerWeapon.range, mask))
+        if( Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, currentWeapon.range, mask))
         {  
             if(hit.collider.tag == "Player")
             {
-                CmdPlayerShot(hit.collider.name, playerWeapon.damage);
+                CmdPlayerShot(hit.collider.name, currentWeapon.damage);
             }
         }
     }
