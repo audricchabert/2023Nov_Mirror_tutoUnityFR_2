@@ -52,10 +52,41 @@ public class PlayerShoot : NetworkBehaviour
         
     }
 
+    //Fonction appellée sur le serveur pour gérer le tir d'un player sur toutes les instances, pour afficher les effets visuels
+    [Command]
+    void CmdOnShoot()
+    {
+        RpcDoShootEffect();
+    }
+
+    //Méthode qui fait apparaître les effets de tir d'un joueur sur tous les autres clients
+    [ClientRpc]
+    void RpcDoShootEffect()
+    {
+        weaponManager.GetCurrentGraphics().muzzleFlash.Play();
+    }
+
+    //Command to the server ; to start playing the particles for the point that is shot at, a wall (or a player)
+    [Command]
+    void CmdOnHit(Vector3 pos, Vector3 normal)
+    {
+        RpcDoHitEffect(pos, normal);
+    }
+
+    //The function to play on each client the effects for a shot that has touched something, a wall (or a player)
+    [ClientRpc]
+    void RpcDoHitEffect(Vector3 pos, Vector3 normal)
+    {
+        GameObject hitEffect = Instantiate(weaponManager.GetCurrentGraphics().hitEffectPrefab, pos, Quaternion.LookRotation(normal));
+        Destroy(hitEffect, 2f);
+    }
+
     [Client]
     private void Shoot()
     {
-        Debug.Log("Tir effectué");
+        if (!isLocalPlayer) { return; }
+
+        CmdOnShoot();
 
         RaycastHit hit;
 
@@ -65,6 +96,9 @@ public class PlayerShoot : NetworkBehaviour
             {
                 CmdPlayerShot(hit.collider.name, currentWeapon.damage);
             }
+
+            //if we hit a player of a wall, we play the effect for a shot impact
+            CmdOnHit(hit.point, hit.normal);
         }
     }
 

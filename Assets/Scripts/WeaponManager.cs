@@ -7,6 +7,7 @@ public class WeaponManager : NetworkBehaviour
     private PlayerWeapon primaryWeapon;
 
     private PlayerWeapon currentWeapon;
+    private WeaponGraphics currentGraphics;
 
     [SerializeField]
     private string weaponLayerName = "Weapon";
@@ -28,10 +29,17 @@ public class WeaponManager : NetworkBehaviour
         //also need to make it a child of the weaponHolder to make it move with it
         weaponIns.transform.SetParent(weaponHolder);
 
+        //Get the WeaponGraphics scripts attached to the weaponIns object (the prefab)
+        currentGraphics = weaponIns.GetComponent<WeaponGraphics>();
+        if(currentGraphics == null)
+        {
+            Debug.LogError("pas de script WeaponGraphics sur la prefab de l'arme" + weaponIns.name);
+        }
+
         if (isLocalPlayer)
         {
             //since this whole script is only processed on the local player, the weapon layer is only changed on its own weapon. This is used in the double camera display do avoid clipping. If others weapons also had the layer name changed, then they would also be visible through the walls
-            SetLayerRecursively(weaponIns, LayerMask.NameToLayer(weaponLayerName));
+            Utils.SetLayerRecursively(weaponIns, LayerMask.NameToLayer(weaponLayerName));
         }
     }
 
@@ -40,12 +48,9 @@ public class WeaponManager : NetworkBehaviour
         return currentWeapon;
     }
 
-    private void SetLayerRecursively(GameObject gameObject, int newLayer)
+    public WeaponGraphics GetCurrentGraphics()
     {
-        gameObject.layer = newLayer;
-        foreach (Transform child in gameObject.transform)
-        {
-            SetLayerRecursively(child.gameObject, newLayer);
-        }
+        return currentGraphics;
     }
+
 }
