@@ -18,6 +18,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float thrusterForce = 1000f;
 
+    [SerializeField]
+    private float thrusterFuelBurnSpeed = 1f;
+    [SerializeField]
+    private float thrusterFuelRegenSpeed = 0.3f;
+    private float thrusterFuelAmount = 1f;
+    public float GetThrusterFuelAmount()
+    {
+        return thrusterFuelAmount;
+    }
+
     [Header("Y_Joint options")]
     [SerializeField]
     private float jointSpring= 20f;
@@ -39,6 +49,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        RaycastHit _hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out _hit, 100f))
+        {
+            playerConfigurablejoint.targetPosition = new Vector3(0f, -_hit.point.y, 0f);
+        }
+        else {
+            playerConfigurablejoint.targetPosition = new Vector3(0f, 0f, 0f);
+        }
+
         // Calculer la vélocité du mouvement du joueur (avant-arrière et sur les côtés)
         float xMov = Input.GetAxis("Horizontal");
         float zMov = Input.GetAxis("Vertical");
@@ -71,15 +90,25 @@ public class PlayerController : MonoBehaviour
 
         Vector3 thrusterVelocity = Vector3.zero;
         //gestion du jetpack 
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("Jump") && thrusterFuelAmount > 0)
         {
-            thrusterVelocity = Vector3.up * thrusterForce;
-            SetJointsSettings(0f);
+            thrusterFuelAmount -= thrusterFuelBurnSpeed * Time.deltaTime;
+
+            //We separate the "remove fuel" from the "apply thruster" to avoid cases where we have almost no fuel but the thruster keeps working the same
+            if(thrusterFuelAmount >= 0.01f)
+            {
+                thrusterVelocity = Vector3.up * thrusterForce;
+                SetJointsSettings(0f);
+            }
         }
         else // todo : voir si ce n'est pas plus performant de remplacer ce else par un GetButtonUp, pour juste désactiver une seule fois quand on relache le bouton
         {
+            thrusterFuelAmount += thrusterFuelRegenSpeed * Time.deltaTime;
             SetJointsSettings(jointSpring);
         }
+
+        //Make sure that the thruster fuel amount cannot go lower than the minimum or higher than the maximum
+        thrusterFuelAmount = Mathf.Clamp(thrusterFuelAmount, 0f, 1f);
 
         playerMotor.ApplyThruster(thrusterVelocity);
     }

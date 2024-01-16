@@ -448,6 +448,8 @@ MonoBehaviour:
   mouseSensitivityX: 5
   mouseSensitivityY: 5
   thrusterForce: 1000
+  thrusterFuelBurnSpeed: 0.5
+  thrusterFuelRegenSpeed: 0.5
   jointSpring: 20
   jointMaxForce: 40
 --- !u!114 &1241124778240640562

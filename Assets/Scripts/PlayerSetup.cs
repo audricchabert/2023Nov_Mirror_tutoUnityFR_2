@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using Mirror;
 
+[RequireComponent (typeof(Player))]
+[RequireComponent (typeof (PlayerController))]
 public class PlayerSetup : NetworkBehaviour
 {
     [SerializeField]
@@ -43,6 +45,16 @@ public class PlayerSetup : NetworkBehaviour
 
             //Only create a playerUI on the local player
             playerUIInstance = Instantiate(playerUIPrefab);
+            //Configuration of the playerUI
+            PlayerUIScript ui = playerUIInstance.GetComponent<PlayerUIScript>();
+            if (ui == null)
+            {
+                Debug.LogError("pas de component playerUIScript sur playerUIInstance");
+            }
+            else
+            {
+                ui.SetController(GetComponent<PlayerController>());
+            }
         }
         GetComponent<Player>().Setup();
     }
